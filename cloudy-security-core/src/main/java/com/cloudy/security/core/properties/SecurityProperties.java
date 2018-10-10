@@ -1,6 +1,5 @@
 package com.cloudy.security.core.properties;
 
-import com.cloudy.security.core.validate.code.ImageCode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**

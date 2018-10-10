@@ -1,0 +1,39 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.cloudy.security.core.properties.SecurityProperties",
+      "name": "cloudy.security",
+      "type": "com.cloudy.security.core.properties.SecurityProperties"
+    },
+    {
+      "sourceType": "com.cloudy.security.core.properties.BrowserProperties",
+      "name": "cloudy.security",
+      "type": "com.cloudy.security.core.properties.BrowserProperties"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.cloudy.security.core.properties.SecurityProperties",
+      "name": "cloudy.security.browser",
+      "type": "com.cloudy.security.core.properties.BrowserProperties"
+    },
+    {
+      "sourceType": "com.cloudy.security.core.properties.SecurityProperties",
+      "name": "cloudy.security.code",
+      "type": "com.cloudy.security.core.properties.ValidateCodeProperties"
+    },
+    {
+      "sourceType": "com.cloudy.security.core.properties.BrowserProperties",
+      "defaultValue": "\/imooc-signIn.html",
+      "name": "cloudy.security.login-page",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.cloudy.security.core.properties.BrowserProperties",
+      "defaultValue": 3600,
+      "name": "cloudy.security.remember-me-seconds",
+      "type": "java.lang.Integer"
+    }
+  ]
+}

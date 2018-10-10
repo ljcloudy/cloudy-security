@@ -1,18 +1,19 @@
 package com.cloudy.security.browser;
 
+import com.cloudy.security.core.authentication.AbstractChannelSecurityConfig;
+import com.cloudy.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
+import com.cloudy.security.core.properties.SecurityConstants;
 import com.cloudy.security.core.properties.SecurityProperties;
-import com.cloudy.security.core.validate.code.ValidateCodeFilter;
-import com.cloudy.security.handler.FailHandler;
-import com.cloudy.security.handler.SuccessHandler;
+import com.cloudy.security.core.validate.code.ValidateCodeSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
@@ -22,19 +23,22 @@ import javax.sql.DataSource;
  * Created by ljy_cloudy on 2018/10/7.
  */
 @Configuration
-public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
+public class BrowserSecurityConfig  extends AbstractChannelSecurityConfig {
 
     @Autowired
     private SecurityProperties securityProperties;
-    @Autowired
-    private SuccessHandler successHandler;
-    @Autowired
-    private FailHandler failHandler;
+
     @Autowired
     private DataSource dataSource;
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private ValidateCodeSecurityConfig validateCodeSecurityConfig;
+
+    @Autowired
+    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -52,27 +56,21 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        ValidateCodeFilter validateCodeFilter = new ValidateCodeFilter();
-        validateCodeFilter.setAuthenticationFailureHandler(failHandler);
-        validateCodeFilter.setSecurityProperties(securityProperties);
-        validateCodeFilter.afterPropertiesSet();
+        applyPasswordAuthenticationConfig(http);
 
-        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
-                .formLogin()
-                    .loginPage("/authentication/require")
-                    .loginProcessingUrl("/authentication/form")
-                    .successHandler(successHandler)
-                    .failureHandler(failHandler)
-                    .and()
+
+        http.apply(validateCodeSecurityConfig).and()
+                .apply(smsCodeAuthenticationSecurityConfig).and()
                 .rememberMe()
                     .tokenRepository(persistentTokenRepository())
                     .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
                     .userDetailsService(userDetailsService)
                 .and()
                     .authorizeRequests()
-                    .antMatchers("/authentication/require",
+                    .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
+                            SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
                             securityProperties.getBrowser().getLoginPage(),
-                            "/code/image")
+                            SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*")
                     .permitAll()
                     .anyRequest()
                     .authenticated()

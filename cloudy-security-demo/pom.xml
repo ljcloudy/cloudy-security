@@ -12,12 +12,16 @@
     <artifactId>cloudy-security-demo</artifactId>
 
     <dependencies>
+        <!--<dependency>-->
+            <!--<groupId>com.cloudy</groupId>-->
+            <!--<artifactId>cloudy-security-browser</artifactId>-->
+            <!--<version>${cloudy.security.version}</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>com.cloudy</groupId>
-            <artifactId>cloudy-security-browser</artifactId>
+            <artifactId>cloudy-security-app</artifactId>
             <version>${cloudy.security.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

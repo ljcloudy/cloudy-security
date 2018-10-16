@@ -13,6 +13,8 @@
 	</properties>
 
 	<name>cloudy-security</name>
+
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -29,7 +31,6 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-
 		</dependencies>
 	</dependencyManagement>
 

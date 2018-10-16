@@ -10,7 +10,17 @@ public class BrowserProperties {
 
     private String loginPage = "/imooc-signIn.html";
 
+    private String signUpUrl = "/imooc-signUp.html";
+
     private int rememberMeSeconds = 3600;
+
+    public String getSignUpUrl() {
+        return signUpUrl;
+    }
+
+    public void setSignUpUrl(String signUpUrl) {
+        this.signUpUrl = signUpUrl;
+    }
 
     public int getRememberMeSeconds() {
         return rememberMeSeconds;

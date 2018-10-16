@@ -16,15 +16,14 @@
 
 package com.cloudy.security.core.authentication.mobile;
 
-import com.cloudy.security.core.authentication.mobile.SmsCodeAuthenticationToken;
+
 import com.cloudy.security.core.properties.SecurityConstants;
 import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.util.Assert;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,7 +41,7 @@ public class SmsCodeAuthenticationFilter extends
     // ===================================================================================================
 
     public SmsCodeAuthenticationFilter() {
-        super(new AntPathRequestMatcher("/login", "POST"));
+        super(new AntPathRequestMatcher(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE, "POST"));
     }
 
     // ~ Methods

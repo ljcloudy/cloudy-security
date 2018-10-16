@@ -2,14 +2,14 @@
   "hints": [],
   "groups": [
     {
-      "sourceType": "com.cloudy.security.core.properties.SecurityProperties",
-      "name": "cloudy.security",
-      "type": "com.cloudy.security.core.properties.SecurityProperties"
-    },
-    {
       "sourceType": "com.cloudy.security.core.properties.BrowserProperties",
       "name": "cloudy.security",
       "type": "com.cloudy.security.core.properties.BrowserProperties"
+    },
+    {
+      "sourceType": "com.cloudy.security.core.properties.SecurityProperties",
+      "name": "cloudy.security",
+      "type": "com.cloudy.security.core.properties.SecurityProperties"
     }
   ],
   "properties": [
@@ -34,6 +34,17 @@
       "defaultValue": 3600,
       "name": "cloudy.security.remember-me-seconds",
       "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.cloudy.security.core.properties.BrowserProperties",
+      "defaultValue": "\/imooc-signUp.html",
+      "name": "cloudy.security.sign-up-url",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.cloudy.security.core.properties.SecurityProperties",
+      "name": "cloudy.security.social",
+      "type": "com.cloudy.security.core.properties.SocialProperties"
     }
   ]
 }

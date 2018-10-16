@@ -32,6 +32,7 @@ import java.util.Set;
 @Component("validateCodeFilter")
 public class ValidateCodeFilter extends OncePerRequestFilter implements InitializingBean {
 
+    @Autowired
     private AuthenticationFailureHandler authenticationFailureHandler;
 
     @Autowired

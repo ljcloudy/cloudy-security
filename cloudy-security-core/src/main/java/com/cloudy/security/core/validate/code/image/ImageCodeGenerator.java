@@ -2,10 +2,11 @@ package com.cloudy.security.core.validate.code.image;
 
 import com.cloudy.security.core.properties.SecurityProperties;
 import com.cloudy.security.core.validate.code.ValidateCodeGenerator;
-import com.cloudy.security.core.validate.code.image.ImageCode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
+
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,7 +15,7 @@ import java.util.Random;
 /**
  * Created by ljy_cloudy on 2018/10/9.
  */
-//@Component("iamge")
+@Component("imageValidateCodeGenerator")
 public class ImageCodeGenerator implements ValidateCodeGenerator {
     @Autowired
     private SecurityProperties securityProperties;

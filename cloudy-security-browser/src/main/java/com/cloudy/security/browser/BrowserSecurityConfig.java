@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
 
@@ -23,7 +24,7 @@ import javax.sql.DataSource;
  * Created by ljy_cloudy on 2018/10/7.
  */
 @Configuration
-public class BrowserSecurityConfig  extends AbstractChannelSecurityConfig {
+public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
 
     @Autowired
     private SecurityProperties securityProperties;
@@ -40,14 +41,12 @@ public class BrowserSecurityConfig  extends AbstractChannelSecurityConfig {
     @Autowired
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
+    @Autowired
+    private SpringSocialConfigurer springSocialConfigurer;
 
     @Bean
-    public PersistentTokenRepository persistentTokenRepository(){
+    public PersistentTokenRepository persistentTokenRepository() {
         JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
         tokenRepository.setDataSource(dataSource);
 //        tokenRepository.setCreateTableOnStartup(true);
@@ -60,21 +59,26 @@ public class BrowserSecurityConfig  extends AbstractChannelSecurityConfig {
 
 
         http.apply(validateCodeSecurityConfig).and()
-                .apply(smsCodeAuthenticationSecurityConfig).and()
-                .rememberMe()
-                    .tokenRepository(persistentTokenRepository())
-                    .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
-                    .userDetailsService(userDetailsService)
+                .apply(smsCodeAuthenticationSecurityConfig)
+                    .and()
+                .apply(springSocialConfigurer)
+                    .and()
+                        .rememberMe()
+                        .tokenRepository(persistentTokenRepository())
+                        .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
+                        .userDetailsService(userDetailsService)
                 .and()
                     .authorizeRequests()
                     .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
                             SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
                             securityProperties.getBrowser().getLoginPage(),
-                            SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*")
+                            securityProperties.getBrowser().getSignUpUrl(),
+                            SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*",
+                            "/user/regist")
                     .permitAll()
                     .anyRequest()
                     .authenticated()
-                    .and()
+                .and()
                     .csrf().disable();
     }
 }

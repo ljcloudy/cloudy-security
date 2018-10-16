@@ -57,7 +57,6 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
     protected void configure(HttpSecurity http) throws Exception {
         applyPasswordAuthenticationConfig(http);
 
-
         http.apply(validateCodeSecurityConfig).and()
                 .apply(smsCodeAuthenticationSecurityConfig)
                     .and()

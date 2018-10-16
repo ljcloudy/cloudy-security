@@ -19,7 +19,7 @@ import java.util.Map;
  * Created by ljy_cloudy on 2018/10/10.
  */
 public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> implements ValidateCodeProcessor {
-
+    @Autowired
     private ValidateCodeRepository validateCodeRepository;
     @Autowired
     private Map<String, ValidateCodeGenerator> validateCodeGenerators;
@@ -41,6 +41,10 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
 
     private void save(ServletWebRequest request, C validateCode) {
 //        sessionStrategy.setAttribute(request, getSessionKey(request), validateCode);
+
+        // 只将验证码的验证码和过期时间存入session
+        ValidateCode code = new ValidateCode(validateCode.getCode(), validateCode.getExpireTime());
+        validateCodeRepository.save(request, code, getValidateCodeType(request));
     }
 
     private String getSessionKey(ServletWebRequest request) {
@@ -72,9 +76,7 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
     public void validate(ServletWebRequest request) {
 
         ValidateCodeType processorType = getValidateCodeType(request);
-        String sessionKey = getSessionKey(request);
 
-//        C codeInSession = (C) sessionStrategy.getAttribute(request, sessionKey);
         C codeInSession = (C) validateCodeRepository.get(request,processorType);
 
         String codeInRequest;
@@ -94,7 +96,6 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
         }
 
         if (codeInSession.isExpried()) {
-//            sessionStrategy.removeAttribute(request, sessionKey);
             validateCodeRepository.remove(request,processorType);
             throw new ValidateCodeException(processorType + "验证码已过期");
         }

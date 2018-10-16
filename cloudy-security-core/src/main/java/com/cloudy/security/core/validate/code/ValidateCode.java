@@ -15,6 +15,11 @@ public class ValidateCode {
         this.expireTime = LocalDateTime.now().plusSeconds(expireIn);
     }
 
+    public ValidateCode(String code, LocalDateTime expireTime) {
+        this.code = code;
+        this.expireTime = expireTime;
+    }
+
     public String getCode() {
         return code;
     }

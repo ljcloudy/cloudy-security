@@ -1,11 +1,12 @@
 package com.cloudy.security.core.validate.code;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
  * Created by ljy_cloudy on 2018/10/10.
  */
-public class ValidateCode {
+public class ValidateCode implements Serializable{
 
     private String code;
     private LocalDateTime expireTime;

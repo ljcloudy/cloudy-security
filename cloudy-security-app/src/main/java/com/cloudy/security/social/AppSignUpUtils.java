@@ -41,7 +41,7 @@ public class AppSignUpUtils {
      * 将缓存的社交用户信息和系统用户信息绑定
      * @param request
      */
-    public void doPostSignUp(WebRequest request,String userId) {
+    public void doPostSignUp(String userId,WebRequest request) {
         String key = getKey(request);
         if(!redisTemplate.hasKey(key)){
             throw new AppSecretException("无法找到缓存的用户社交账号信息");

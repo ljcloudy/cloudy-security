@@ -28,4 +28,14 @@ public class SecurityConstants {
      * 默认的处理验证码的url前缀
      */
     public static final String DEFAULT_VALIDATE_CODE_URL_PREFIX = "/code";
+
+    /**
+     * 默认的OPENID登录请求处理url
+     */
+    public static final String DEFAULT_SIGN_IN_PROCESSING_URL_OPENID = "/authentication/openid";
+
+    /**
+     * 获取第三方用户信息的url
+     */
+    public static final String DEFAULT_SOCIAL_USER_INFO_URL = "/social/user";
 }

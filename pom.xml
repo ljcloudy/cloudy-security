@@ -54,6 +54,8 @@
 		<module>cloudy-security-browser</module>
 		<module>cloudy-security-core</module>
 		<module>cloudy-security-demo</module>
+        <module>sso-demo</module>
+		<module>sso-demo</module>
 	</modules>
 
 </project>

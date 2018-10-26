@@ -47,7 +47,7 @@ public class SocialConfig extends SocialConfigurerAdapter {
     }
 
     @Bean
-    public SpringSocialConfigurer SocialSecurityConfig() {
+    public SpringSocialConfigurer cloudySpringSocialConfigurer() {
         String filterProcessesUrl = securityProperties.getSocial().getFilterProcessesUrl();
         CloudySpringSocialConfigurer configurer = new CloudySpringSocialConfigurer(filterProcessesUrl);
         configurer.signupUrl(securityProperties.getBrowser().getSignUpUrl());

@@ -2,14 +2,14 @@
   "hints": [],
   "groups": [
     {
-      "sourceType": "com.cloudy.security.core.properties.BrowserProperties",
-      "name": "cloudy.security",
-      "type": "com.cloudy.security.core.properties.BrowserProperties"
-    },
-    {
       "sourceType": "com.cloudy.security.core.properties.SecurityProperties",
       "name": "cloudy.security",
       "type": "com.cloudy.security.core.properties.SecurityProperties"
+    },
+    {
+      "sourceType": "com.cloudy.security.core.properties.BrowserProperties",
+      "name": "cloudy.security",
+      "type": "com.cloudy.security.core.properties.BrowserProperties"
     }
   ],
   "properties": [
@@ -28,6 +28,11 @@
       "defaultValue": "\/imooc-signIn.html",
       "name": "cloudy.security.login-page",
       "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.cloudy.security.core.properties.SecurityProperties",
+      "name": "cloudy.security.oauth2",
+      "type": "com.cloudy.security.core.properties.OAuth2Properties"
     },
     {
       "sourceType": "com.cloudy.security.core.properties.BrowserProperties",

@@ -1,12 +1,18 @@
 package com.cloudy.controller;
 
 import com.cloudy.entity.User;
+//import com.cloudy.security.social.AppSignUpUtils;
+import com.cloudy.security.core.properties.SecurityProperties;
 import com.fasterxml.jackson.annotation.JsonView;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.social.connect.web.ProviderSignInUtils;
@@ -29,15 +35,31 @@ public class UserController {
 
     @Autowired
     private ProviderSignInUtils providerSignInUtils;
+    @Autowired
+    private SecurityProperties securityProperties;
+
+//    @Autowired
+//    private AppSignUpUtils appSignUpUtils;
 
     @PostMapping("/regist")
     public void registUser(User user , HttpServletRequest request){
         String userId = user.getUsername();
+//        appSignUpUtils.doPostSignUp(userId, new ServletWebRequest(request));
         providerSignInUtils.doPostSignUp(userId, new ServletWebRequest(request));
     }
 
     @GetMapping("/me")
-    public Object getCurrentUser(@AuthenticationPrincipal UserDetails user) {
+    public Object getCurrentUser( Authentication user,HttpServletRequest request)throws Exception {
+        String token = StringUtils.substringAfter(request.getHeader("Authorization"), "Bearer ");
+
+        Claims claims = Jwts.parser().setSigningKey(
+                securityProperties.getOauth2().getSigningKey().getBytes("UTF-8"))
+                .parseClaimsJws(token).getBody();
+        // 拿到自定义增强的参数
+        String company = (String) claims.get("company");
+
+        System.out.println(company);
+
         return user;
     }
 

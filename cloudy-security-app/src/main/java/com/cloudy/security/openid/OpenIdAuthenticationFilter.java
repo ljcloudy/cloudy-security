@@ -1,8 +1,8 @@
 package com.cloudy.security.openid;
 
+import com.cloudy.security.core.properties.SecurityConstants;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
@@ -22,7 +22,7 @@ public class OpenIdAuthenticationFilter extends AbstractAuthenticationProcessing
     private boolean postOnly = true;
 
     public OpenIdAuthenticationFilter() {
-        super(new AntPathRequestMatcher("/login", "POST"));
+        super(new AntPathRequestMatcher(SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_OPENID, "POST"));
     }
 
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
@@ -32,9 +32,12 @@ public class OpenIdAuthenticationFilter extends AbstractAuthenticationProcessing
             String openid = this.obtainOpenid(request);
             String providerId = this.obtainProviderId(request);
             if (StringUtils.isBlank(openid)) {
-
+                throw new IllegalArgumentException("openid is null");
             }
-            OpenIdAuthenticationToken authRequest = new OpenIdAuthenticationToken(openid, openid);
+            if (StringUtils.isBlank(providerId)) {
+                throw new IllegalArgumentException("providerId is null");
+            }
+            OpenIdAuthenticationToken authRequest = new OpenIdAuthenticationToken(openid, providerId);
             this.setDetails(request, authRequest);
             return this.getAuthenticationManager().authenticate(authRequest);
         }

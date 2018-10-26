@@ -4,6 +4,7 @@ import com.cloudy.security.core.authentication.mobile.SmsCodeAuthenticationSecur
 import com.cloudy.security.core.properties.SecurityConstants;
 import com.cloudy.security.core.properties.SecurityProperties;
 import com.cloudy.security.core.validate.code.ValidateCodeSecurityConfig;
+import com.cloudy.security.openid.OpenIdAuthenticationSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -35,8 +36,12 @@ public class CloudyResourceServerConfig  extends ResourceServerConfigurerAdapter
     @Autowired
     private SecurityProperties securityProperties;
 
+    @Autowired
+    private OpenIdAuthenticationSecurityConfig openIdAuthenticationSecurityConfig;
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
+        http.apply(openIdAuthenticationSecurityConfig);
         http.formLogin()
                 .loginPage(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
                 .loginProcessingUrl(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FORM)
@@ -56,7 +61,7 @@ public class CloudyResourceServerConfig  extends ResourceServerConfigurerAdapter
                         securityProperties.getBrowser().getLoginPage(),
                         securityProperties.getBrowser().getSignUpUrl(),
                         SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*",
-                        "/user/regist")
+                        "/user/regist","/social/signUp")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

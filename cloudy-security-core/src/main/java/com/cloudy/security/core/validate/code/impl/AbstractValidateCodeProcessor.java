@@ -12,7 +12,6 @@ import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 
-import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -37,7 +36,7 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
      * @param request
      * @param validateCode
      */
-    protected abstract void send(ServletWebRequest request, C validateCode) throws IOException, ServletRequestBindingException, Exception;
+    protected abstract void send(ServletWebRequest request, C validateCode) throws  Exception;
 
     private void save(ServletWebRequest request, C validateCode) {
 //        sessionStrategy.setAttribute(request, getSessionKey(request), validateCode);

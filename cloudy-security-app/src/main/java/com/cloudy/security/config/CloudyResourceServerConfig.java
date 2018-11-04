@@ -39,6 +39,8 @@ public class CloudyResourceServerConfig  extends ResourceServerConfigurerAdapter
     @Autowired
     private OpenIdAuthenticationSecurityConfig openIdAuthenticationSecurityConfig;
 
+
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.apply(openIdAuthenticationSecurityConfig);
@@ -56,12 +58,12 @@ public class CloudyResourceServerConfig  extends ResourceServerConfigurerAdapter
 
                 .and()
                 .authorizeRequests()
-                .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
-                        SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
-                        securityProperties.getBrowser().getLoginPage(),
-                        securityProperties.getBrowser().getSignUpUrl(),
-                        SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*",
-                        "/user/regist","/social/signUp")
+                    .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
+                            SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
+                            securityProperties.getBrowser().getLoginPage(),
+                            securityProperties.getBrowser().getSignUpUrl(),
+                            SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*",
+                            "/user/regist","/social/signUp")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
